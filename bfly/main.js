@@ -12,12 +12,6 @@ function main_init(){
   };
   load = new Loader(source_terms);
   load.r --;
-  base_0 = {
-    src: load.getTilePath('base', 0),
-    width: 0.5,
-    height: 0.5,
-    x: 0.0,
-    y: 0.0
-  }
+  base_0 = load.getTile('base',0);
   view = new Viewer(base_0);
 }
