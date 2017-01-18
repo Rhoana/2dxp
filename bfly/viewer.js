@@ -35,7 +35,7 @@ Viewer.prototype = {
 
     // Draw for glsl
     this.viaGL['gl-drawing'] = function() {
-      this.gl.uniform2f(this.wherer, this.bounds.x, this.flip_y);
+      this.gl.uniform2f(this.wherer, this.bounds.x, this.bounds.y);
       this.gl.uniform2f(this.shaper, this.bounds.width, this.bounds.height);
     }
 
