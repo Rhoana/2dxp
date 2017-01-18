@@ -5,7 +5,7 @@ Loader = function(terms){
   // Write all layers to path formats
   this._path_forms = this._getPathForms(terms);
   // Store all resolution tile offsets
-  this._tile_lists = this._getTileLists(terms);
+  this._tile_lists = this._makeTileLists(terms);
   // Save resolution and depth constraints
   this._res = this._tile_lists.length-1;
   this._max_zed = terms.depth;
@@ -39,14 +39,14 @@ Loader.prototype = {
     };
   },
   // Compute XY offsets for all resolutions
-  _getTileLists: function(a){
+  _makeTileLists: function(a){
     var minside = Math.min(a.width,a.height);
     var ratio = Math.max(minside/this._tileSize,0);
     var levels = Math.ceil(Math.log2(ratio + 1));
     var levelList = Array.apply(0, Array(levels));
-    return levelList.map(this._getTileList).reverse();
+    return levelList.map(this._makeTileList).reverse();
   },
-  _getTileList: function(x0,order){
+  _makeTileList: function(x0,order){
     var n = 2**order;
     var tileList = Array.apply(0, Array(n**2));
     return tileList.map(function(x1,c){
