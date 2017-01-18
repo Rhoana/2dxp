@@ -11,4 +11,5 @@ function main_init(){
     server: 'viper.krash.net:2016'
   };
   load = new Loader(source_terms);
+  view = new Viewer();
 }
