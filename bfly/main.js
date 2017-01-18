@@ -8,8 +8,9 @@ function main_init(){
     dataset: "jan_push",
     base_channel: "images_2kx2k.h5",
     over_channel: "8x_downsampled_segmentation.h5",
-    server: 'viper.krash.net:2016'
+    server: 'http://viper.krash.net:2016'
   };
   load = new Loader(source_terms);
-  view = new Viewer();
+  base_0 = load.getTilePath('base',0);
+  view = new Viewer(base_0);
 }

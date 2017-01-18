@@ -1,15 +1,16 @@
 body {
-    padding:0px;
     margin:0px;
-    overflow:hidden;
+    padding:0px;
     background-color: #000;
 }
 
+.flex {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
 #view {
-    background-color: #000;
-    position:absolute;
-    height:100%;
-    width:100%;
-    left:0px;
-    top:0px;
+    height: 100vmin;
+    width: 100vmin;
 }

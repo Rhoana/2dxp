@@ -30,10 +30,12 @@ Loader.prototype = {
   _getPathForms: function(a){
     var path = this._api.replace('<e>', a.experiment);
     var tile = this._tile.replace(/<hw>/g, this._tileSize);
-    path = path.replace('<s>', a.sample).replace('<d>', a.dataset);
+    path = path.replace('<s>', a.sample);
+    path = path.replace('<d>', a.dataset);
+    path = a.server+path+tile;
     return {
-      base: a.server + path.replace('<c>', a.base_channel) + tile,
-      over: a.server + path.replace('<c>', a.over_channel) + tile
+      base: path.replace('<c>', a.base_channel),
+      over: path.replace('<c>', a.over_channel)
     };
   },
   // Compute XY offsets for all resolutions

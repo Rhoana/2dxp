@@ -4,16 +4,17 @@
 //
 //-----------------------------------
 
-Viewer = function() {
+Viewer = function(image_source) {
   this.img = new Image();
   this.viaGL = new ViaWebGL();
   this.img.onload = this.init.bind(this);
-  this.img.src = 'test.png';
   this.viaGL.vShader = 'shaders/vertex/rect.glsl';
   this.viaGL.fShader = 'shaders/fragment/rect.glsl';
   this.viaGL.container = document.getElementById('view');
   this.img.height = this.viaGL.container.clientHeight;
   this.img.width = this.viaGL.container.clientWidth;
+  this.img.crossOrigin = "anonymous";
+  this.img.src = image_source;
   this.viaGL.bounds = {
     width: 1.0,
     height: 1.0,
