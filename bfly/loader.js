@@ -65,14 +65,15 @@ Loader.prototype = {
   // Get path from layer name and tile number
   getTilePath: function(path_name, tile_i){
     var paths = this._path_forms;
-    if (path_name) {
+    if (path_name in paths) {
       var path = paths[path_name];
       var [z,r] = [this._zed, this._res];
       var [x,y] = this.getTileXY(tile_i);
       return this._getTilePath(path, z, r, x, y);
     }
-    var path_keys = Object.keys(paths)
-    console.log('Channels: \'%s\'', path_keys.join('\', \''));
+    var path_keys = Object.keys(paths);
+    var warn = '\'%s\' not in channels \'%s\'';
+    console.log(warn, path_name, path_keys.join('\', \''));
     return paths[path_keys[0]].split('&channel')[0];
   },
   // Get tile XY indices from tile number
