@@ -55,10 +55,12 @@ Loader.prototype = {
   },
   // Build path from position information
   _getTilePath: function(path, tile){
+    var r_list = this._tile_lists[this._res];
+    var side = Math.sqrt(r_list.length);
     var tile_path = path.replace('<z>', this._zed);
     tile_path = tile_path.replace('<r>', this._res);    
-    tile_path = tile_path.replace('<x>', tile.x*this._tileSize);    
-    tile_path = tile_path.replace('<y>', tile.y*this._tileSize);    
+    tile_path = tile_path.replace('<x>', tile.x*side*this._tileSize);    
+    tile_path = tile_path.replace('<y>', tile.y*side*this._tileSize);    
     return tile_path;
   },
   // Return tile object from size and position
