@@ -53,23 +53,46 @@ Loader.prototype = {
       return [Math.floor(c/n), c%n]; 
     });
   },
+  _rlist: function(){
+    return this._tile_lists[this._res];
+  },
+  _rlen: function(){
+    return this._rlist().length;
+  },
+  _rside: function(){
+    return Math.sqrt(this._rlen())
+  },
+  // Convert tile count to image fraction
+  _count2frac: function(tile_count){
+    var side_size = this._rside();
+    return tile_count / side_size;
+  },
+  // Convert image fraction to tile count
+  _frac2count: function(fraction){
+    var side_size = this._rside();
+    return fraction * side_size;
+  },
+  // Convert image fraction to pixel size
+  _frac2px: function(fraction){
+    var tile_count = this._frac2count(fraction);
+    return tile_count * this._tileSize;
+  },
   // Build path from position information
   _getTilePath: function(path, tile){
-    var r_list = this._tile_lists[this._res];
-    var side = Math.sqrt(r_list.length);
     var tile_path = path.replace('<z>', this._zed);
     tile_path = tile_path.replace('<r>', this._res);    
-    tile_path = tile_path.replace('<x>', tile.x*side*this._tileSize);    
-    tile_path = tile_path.replace('<y>', tile.y*side*this._tileSize);    
+    tile_path = tile_path.replace('<x>', this._frac2px(tile.x));    
+    tile_path = tile_path.replace('<y>', this._frac2px(tile.y));    
     return tile_path;
   },
   // Return tile object from size and position
-  _formatTile: function(size,xy){
+  _formatTile: function(tile_index){
+    var xy = this._rlist()[tile_index];
     return {
-      height: 1/size,
-      width: 1/size,
-      x: xy[0]/size,
-      y: xy[1]/size
+      height: this._count2frac(1),
+      width: this._count2frac(1),
+      x: this._count2frac(xy[0]),
+      y: this._count2frac(xy[1])
     };
   },
   /*
@@ -88,14 +111,12 @@ Loader.prototype = {
   },
   // return tile facts if tile exists
   checkTile: function(tile_i){
-    var r_list = this._tile_lists[this._res];
-    var side = Math.sqrt(r_list.length);
-    if (tile_i in r_list){
-      return this._formatTile(side, r_list[tile_i]);
+    if (tile_i in this._rlist()){
+      return this._formatTile(tile_i);
     }
     var warn = 'No tile #%i for resolution %i of %ix%i!';
-    console.log(warn, tile_i, this._res, side, side);
-    return this._formatTile(side, r_list[0]);
+    console.log(warn, tile_i, this._res, this._rside(), this._rside());
+    return this._formatTile(0);
   },
   /*
    * Public Methods
@@ -121,7 +142,7 @@ Loader.prototype = {
     }
   },
   get rlen(){
-    return this._tile_lists[this._res].length;
+    return this._rlen();
   },
   get z(){
     return this._zed;
